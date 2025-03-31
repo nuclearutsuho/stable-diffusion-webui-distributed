@@ -4,6 +4,7 @@ Formatting: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), [Semantic 
 ## [2.3.1] - 2025-04-01
 - 添加中文翻译
 - 修复worker响应失败导致插件无法启动的问题
+- 修复了ping_remotes 方法中，当节点不可达时，distributed.py 的 update_gallery 方法会无条件等待所有工作线程的问题
 
 ## [2.3.0] - 2024-10-26
 

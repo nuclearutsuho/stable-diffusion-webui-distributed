@@ -132,16 +132,18 @@ class DistributedScript(scripts.Script):
         master_elapsed = time.time() - self.master_start
         logger.debug(f"Took master {master_elapsed:.2f}s")
 
-        # wait for response from all workers
+        # 等待响应，但添加超时机制
         webui_state.textinfo = "Distributed - receiving results"
         for job in self.world.jobs:
-            if job.thread is None:
+            if job.thread is None or job.worker.state == State.UNAVAILABLE:
                 continue
 
             logger.debug(f"waiting for worker thread '{job.thread.name}'")
-            job.thread.join()
-        logger.debug("all worker request threads returned")
-        webui_state.textinfo = "Distributed - injecting images"
+            # 添加超时参数，例如5秒
+            job.thread.join(timeout=1)
+            if job.thread.is_alive():
+                logger.warning(f"worker '{job.worker.label}' did not respond in time, marking as unavailable")
+                job.worker.set_state(State.UNAVAILABLE)
 
         received_images = False
         for job in self.world.jobs:

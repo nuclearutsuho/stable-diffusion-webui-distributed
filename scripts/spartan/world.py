@@ -427,21 +427,21 @@ class World:
         # max_compensation = 4 currently unused
         images_checked = 0
         for job in self.jobs:
-
-            lag = self.job_stall(job.worker, payload=payload)
-
-            if lag < self.job_timeout or lag == 0:
-                job.batch_size = payload['batch_size']
-                images_checked += payload['batch_size']
+            if job.worker.state == State.UNAVAILABLE:
+                logger.debug(f"worker '{job.worker.label}' is unavailable, skipping job assignment")
+                job.batch_size = 0
                 continue
-
-            logger.debug(f"worker '{job.worker.label}' would stall the image gallery by ~{lag:.2f}s\n")
-            job.complementary = True
-            if deferred_images + images_checked + payload['batch_size'] > self.p.batch_size:
-                logger.debug(f"would go over actual requested size")
-            else:
-                deferred_images += payload['batch_size']
-            job.batch_size = 0
+                
+            lag = self.job_stall(job.worker, payload=payload)
+            
+            if lag > self.job_timeout:
+                logger.debug(f"worker '{job.worker.label}' would stall the image gallery by ~{lag:.2f}s\n")
+                job.complementary = True
+                if deferred_images + images_checked + payload['batch_size'] > self.p.batch_size:
+                    logger.debug(f"would go over actual requested size")
+                else:
+                    deferred_images += payload['batch_size']
+                job.batch_size = 0
 
         ####################################################
         # redistributing deferred images to realtime jobs  #
