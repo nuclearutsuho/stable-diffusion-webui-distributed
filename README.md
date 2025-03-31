@@ -13,6 +13,12 @@ The main goal is minimizing the lag of (high batch size) requests from the **mai
 
 主要目标是最小化来自主SD WebUI实例的（大批量）请求的延迟。
 
+<<<<<<< HEAD
+=======
+![alt text](doc/sdwui_distributed.drawio.png)\
+*Diagram shows Master/slave architecture of the extension*
+*图表展示了扩展的主从架构*
+>>>>>>> a0bc369b9ee5e6f9993deb6c1e26dfa1543065f2
 
 **Contributions and feedback are much appreciated!**
 
