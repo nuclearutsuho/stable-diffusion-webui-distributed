@@ -1,6 +1,9 @@
 # Change Log
 Formatting: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [2.3.1] - 2025-04-01
+- 添加中文翻译
+
 ## [2.3.0] - 2024-10-26
 
 ## Added
