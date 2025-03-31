@@ -768,7 +768,7 @@ class World:
                     worker.set_state(State.IDLE, expect_cycle=True)
                 else:
                     msg = f"worker '{worker.label}' is unreachable"
-                    if worker.response.status_code is not None:
+                    if hasattr(worker, 'response') and worker.response is not None and hasattr(worker.response, 'status_code'):
                         msg += f" <{worker.response.status_code}>"
 
                     logger.info(msg)

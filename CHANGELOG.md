@@ -3,6 +3,7 @@ Formatting: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), [Semantic 
 
 ## [2.3.1] - 2025-04-01
 - 添加中文翻译
+- 修复worker响应失败导致插件无法启动的问题
 
 ## [2.3.0] - 2024-10-26
 
